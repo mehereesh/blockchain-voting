@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification - Blockchain Voting</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="verification-container">
+        <h2>Verification</h2>
+        <div id="face-verification">
+            <h3>Face Recognition</h3>
+            <video id="video" width="320" height="240" autoplay></video>
+            <button onclick="startFaceRecognition()">Start Face Recognition</button>
+            <p id="face-status"></p>
+        </div>
+        
+        <div id="otp-verification">
+            <h3>OTP Verification</h3>
+            <p>Enter the OTP sent to your email:</p>
+            <input type="text" id="otp" placeholder="Enter OTP">
+            <button onclick="verifyOTP()">Verify OTP</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/opencv.js"></script>
+    <script>
+        // Initialize video stream for face recognition
+        let videoElement = document.getElementById('video');
+        let videoStream;
+
+        function startFaceRecognition() {
+            videoStream = navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    videoElement.srcObject = stream;
+                    document.getElementById('face-status').textContent = 'Face recognition in progress...';
+                    // Placeholder for face recognition logic
+                    setTimeout(() => {
+                        document.getElementById('face-status').textContent = 'Face match successful!';
+                        // Simulate redirection after face match
+                        setTimeout(() => {
+                            document.getElementById('otp-verification').style.display = 'block';
+                        }, 1000);
+                    }, 3000); // Simulated delay for face recognition
+                })
+                .catch(error => {
+                    document.getElementById('face-status').textContent = 'Face recognition failed!';
+                });
+        }
+
+        // OTP Verification Logic
+        function verifyOTP() {
+            const otp = document.getElementById('otp').value;
+            if (otp === '123456') { // Simulated OTP
+                alert('OTP verified successfully!');
+                window.location.href = 'voting.html'; // Redirect to voting page
+            } else {
+                alert('Invalid OTP. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote - Blockchain Voting</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="voting-container">
+        <h2>Vote for Your Party</h2>
+        
+        <div class="party-logos">
+            <div class="party-logo" id="party-1">
+                <img src="party1-logo.png" alt="Party 1">
+                <button onclick="vote('Party 1')">Vote</button>
+            </div>
+            <div class="party-logo" id="party-2">
+                <img src="party2-logo.png" alt="Party 2">
+                <button onclick="vote('Party 2')">Vote</button>
+            </div>
+            <div class="party-logo" id="party-3">
+                <img src="party3-logo.png" alt="Party 3">
+                <button onclick="vote('Party 3')">Vote</button>
+            </div>
+        </div>
+        
+        <div id="vote-status" style="display: none;">
+            <p id="vote-message"></p>
+            <button onclick="logout()">Logout</button>
+        </div>
+
+        <div id="timer">
+            <h3>Time remaining: <span id="countdown">5:00</span></h3>
+        </div>
+    </div>
+
+    <script>
+        // Countdown timer for 5 minutes
+        let timer = 300; // 5 minutes in seconds
+        const countdownDisplay = document.getElementById('countdown');
+
+        function startTimer() {
+            const interval = setInterval(() => {
+                let minutes = Math.floor(timer / 60);
+                let seconds = timer % 60;
+                countdownDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    alert('Session timed out. You have been logged out.');
+                    window.location.href = 'login.html'; // Redirect to login page
+                }
+                timer--;
+            }, 1000);
+        }
+
+        // Call startTimer when the page loads
+        window.onload = startTimer;
+
+        // Handle the vote action
+        function vote(party) {
+            alert(`You voted for ${party}`);
+            
+            // Simulate the vote submission to the blockchain or backend here
+            submitVote(party);
+
+            // Show a confirmation message after casting the vote
+            document.getElementById('vote-status').style.display = 'block';
+            document.getElementById('vote-message').textContent = `You have successfully voted for ${party}.`;
+
+            // Once the user clicks 'Okay', proceed to logout
+            const voteConfirmation = confirm(`You voted for ${party}. Do you want to log out?`);
+            if (voteConfirmation) {
+                logout(); // If the user confirms, log them out and redirect to login page
+            }
+        }
+
+        // Simulated function to send the vote to the backend (could be blockchain)
+        function submitVote(party) {
+            // Replace with actual backend interaction (e.g., sending to Ethereum or Hyperledger)
+            console.log(`Vote for ${party} submitted successfully!`);
+            
+            // You can also send an AJAX request to submit the vote to the backend or interact with blockchain APIs.
+            // Example:
+            // fetch('backend-url-to-submit-vote', {
+            //     method: 'POST',
+            //     body: JSON.stringify({ party: party }),
+            //     headers: { 'Content-Type': 'application/json' }
+            // });
+        }
+
+        // Handle logout action
+        function logout() {
+            alert('You have logged out.');
+            window.location.href = 'login.html'; // Redirect to login page
+        }
+    </script>
+</body>
+</html>

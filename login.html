@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Blockchain Voting</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Blockchain Voting System</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+            </div>
+            <div class="form-group">
+                <label for="captcha">Captcha:</label>
+                <input type="text" id="captcha" required>
+                <div class="captcha">
+                    <span id="captcha-code">AB3X9</span>
+                    <button type="button" onclick="generateCaptcha()">Reload Captcha</button>
+                </div>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to generate a new captcha code
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let captcha = '';
+            for (let i = 0; i < 5; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('captcha-code').textContent = captcha;
+        }
+
+        // Handle login form submission
+        document.getElementById('login-form').onsubmit = function(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const captcha = document.getElementById('captcha').value;
+            const captchaCode = document.getElementById('captcha-code').textContent;
+
+            if (captcha !== captchaCode) {
+                alert('Captcha is incorrect.');
+                return;
+            }
+            // Proceed with backend validation
+            window.location.href = 'verification.html'; // Redirect to the verification page
+        };
+    </script>
+</body>
+</html>
